@@ -1,3 +1,4 @@
-import 'routes.dart';
+import 'redux.dart';
+import 'package:flutter/material.dart';
 
-void main() => new Routes();
+void main() => runApp(PomodoroApp());
