@@ -6,7 +6,7 @@ Created using [Flutter](https://flutter.dev).
 
 The app's file structure is based off this one dude's medium post [here.](https://hackernoon.com/scalable-app-structure-in-flutter-dad61a4bc389)
 
-The app also uses Redux for Flutter for state management. Learn more about there [here.](https://blog.novoda.com/introduction-to-redux-in-flutter/)
+The app also uses Redux for Flutter for state management. Learn more about that [here.](https://blog.novoda.com/introduction-to-redux-in-flutter/)
 
 Enjoy. :)
 
