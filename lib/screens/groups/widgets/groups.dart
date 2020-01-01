@@ -10,14 +10,14 @@ class GroupsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.black54), onPressed: null),
         title: Text("Groups", style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
         elevation: 0,
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.arrow_back, color: Colors.black54), onPressed: null),
-          IconButton(icon: Icon(Icons.search, color: Colors.black54), onPressed: null),
-          IconButton(icon: Icon(Icons.add, color: Colors.black54), onPressed: null)
-        ],
         backgroundColor: Colors.white,
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search, color: Colors.black54), onPressed: null,),
+          IconButton(icon: Icon(Icons.add, color: Colors.black54), onPressed: null,)
+        ],
       ),
     );
   }
