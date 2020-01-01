@@ -34,7 +34,7 @@ class PomodoroState extends State<Pomodoro> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar (
+      appBar: AppBar(
           title: Text("December 28", style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
           elevation: 0,
           actions: <Widget>[
