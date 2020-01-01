@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pomodoro/data/reducer.dart';
 import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
+import 'package:pomodoro/data/state.dart';
+import 'package:redux/redux.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -40,7 +44,12 @@ class PomodoroState extends State<Pomodoro> {
           ]
       ),
       body: _body(),
-      floatingActionButton: _fab(),
+      floatingActionButton: StoreConnector<AppState, _ViewModel>(
+        builder: (context, vm) {
+          return _fab(vm);
+        },
+        converter: _ViewModel.fromStore,
+      ),
       backgroundColor: const Color(0xfff2f2f2),
     );
   }
@@ -50,7 +59,12 @@ class PomodoroState extends State<Pomodoro> {
         children: [
           new ProgressBar(progress: 0.3),
           _clock(15, 0),
-          Expanded(child: new TaskList())
+          Expanded(child: StoreConnector<AppState, _ViewModel>(
+            builder: (context, vm) {
+              return TaskList(items: vm.items,);
+            },
+            converter: _ViewModel.fromStore,
+          ))
         ]
     ),
   );
@@ -64,13 +78,16 @@ class PomodoroState extends State<Pomodoro> {
     child: Text("$minute:${second < 10 ? "0" : ""}$second", style: _clockStyle,),
   );
 
-  Widget _fab() => Stack(
+  Widget _fab(_ViewModel vm) => Stack(
     children: <Widget>[
       Padding(padding: EdgeInsets.only(bottom:70),
         child: Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
-            onPressed: null,
+            onPressed: () {
+              print("Nice");
+              vm.addItem(TaskItem("ayy", Colors.red, false, 0, DateTime(0), DateTime(0)));
+            },
             backgroundColor: Colors.white,
             child: Icon(Icons.add, color: Colors.black54,),),
         ),),
@@ -84,4 +101,25 @@ class PomodoroState extends State<Pomodoro> {
       ),
     ],
   );
+}
+
+class _ViewModel {
+  _ViewModel({
+    this.items,
+    this.store,
+    this.addItem,
+  });
+
+  final List<TaskItem> items;
+  final Store<AppState> store;
+  final Function(TaskItem) addItem;
+
+  static _ViewModel fromStore(Store<AppState> store) {
+    return _ViewModel(
+      items: store.state.tasks,
+      store: store,
+      addItem: (item) => store.dispatch(new AddItemAction(item)),
+    );
+  }
+
 }

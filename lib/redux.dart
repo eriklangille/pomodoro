@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'screens/home/index.dart';
-import 'data/state.dart';
-import 'data/reducer.dart';
+import 'package:pomodoro/screens/home/index.dart';
+import 'package:pomodoro/data/state.dart';
+import 'package:pomodoro/data/reducer.dart';
 
 class PomodoroApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
@@ -13,7 +13,6 @@ class PomodoroApp extends StatelessWidget {
   final Store<AppState> store = Store<AppState>(
     appReducer,
     initialState: AppState.initial(),
-    middleware: null,
   );
 
   @override

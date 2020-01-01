@@ -1,5 +1,5 @@
 import 'package:redux/redux.dart';
-import 'state.dart';
+import 'package:pomodoro/data/state.dart';
 
 AppState appReducer(AppState state, action) => AppState(tasksReducer(state.tasks, action));
 
