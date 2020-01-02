@@ -4,6 +4,8 @@ import 'package:redux/redux.dart';
 import 'package:pomodoro/screens/home/index.dart';
 import 'package:pomodoro/screens/stats/widgets/index.dart';
 import 'package:pomodoro/screens/groups/widgets/groups/index.dart';
+import 'package:pomodoro/screens/groups/widgets/addGroup/index.dart';
+import 'package:pomodoro/screens/groups/widgets/searchGroup/index.dart';
 import 'package:pomodoro/screens/profile/widgets/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:pomodoro/data/reducer.dart';
@@ -14,6 +16,8 @@ class PomodoroApp extends StatelessWidget {
     '/home': (BuildContext context) => new MyApp(),
     '/stats': (BuildContext context) => new StatsApp(),
     '/groups': (BuildContext context) => new GroupsApp(),
+    '/addGroup': (BuildContext context) => new AddGroupApp(),
+    '/searchGroup': (BuildContext context) => new SearchGroupApp(),
     '/profile': (BuildContext context) => new ProfileApp()
   };
 
