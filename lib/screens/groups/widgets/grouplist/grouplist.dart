@@ -16,30 +16,40 @@ class _GroupListState extends State<GroupList> {
 
   Widget groupTemplate(group) {
     return Card(
-      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-            Image.network(group.picture),
-          Text(
-            group.name,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.black87,
-            )
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              TagText(icon: Icons.timer, text: "${group.time}"),
-              TagText(icon: Icons.person, text: "${group.people}"),
-            ],
+          CircleImage(link: group.picture, radius: 100,),
+          Expanded(child:
+          Container (
+            child:
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(group.name,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black87
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.left),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      new TagText(icon: Icons.timer, text: "${group.time}"),
+                      new TagText(icon: Icons.person, text: "${group.people}"),
+                    ],
+                  )
+                ]
+            ),
+//            color: Colors.red,
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           )
+          ),
         ],
       ),
-    ),
     );
   }
 
@@ -63,6 +73,34 @@ class Group {
   Group({this.name, this.time, this.people, this.picture});
 
 }
+
+class CircleImage extends StatelessWidget {
+
+  final String link;
+  final int radius;
+
+  CircleImage({this.link, this.radius});
+
+  @override
+  Widget build(BuildContext context) {
+    double _radius = 150.0;
+
+    return Container(
+      child: new Container(
+        width: _radius,
+        height: _radius,
+        decoration: new BoxDecoration(
+          shape: BoxShape.circle,
+          image: new DecorationImage(
+            fit: BoxFit.cover,
+            image: new NetworkImage(link)
+          )
+        )
+      )
+    );
+  }
+}
+
 
 Group UBCTryhards = Group(
     name: 'UBC Tryhards',
