@@ -1,4 +1,4 @@
-package com.example.pomodoro
+package app.pomotask.pomodoro
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
