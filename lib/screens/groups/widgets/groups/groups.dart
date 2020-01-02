@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/screens/groups/widgets/grouplist/index.dart';
 
 class GroupsApp extends StatelessWidget {
   @override
@@ -15,6 +16,7 @@ class GroupsApp extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
+      body: GroupList()
     );
   }
 }

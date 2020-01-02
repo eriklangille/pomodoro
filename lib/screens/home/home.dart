@@ -5,9 +5,9 @@ import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
-import 'package:pomodoro/screens/stats/widgets/stats.dart';
-import 'package:pomodoro/screens/groups/widgets/groups.dart';
-import 'package:pomodoro/screens/profile/widgets/profile.dart';
+import 'package:pomodoro/screens/stats/widgets/index.dart';
+import 'package:pomodoro/screens/groups/widgets/groups/index.dart';
+import 'package:pomodoro/screens/profile/widgets/index.dart';
 
 class MyApp extends StatelessWidget {
   @override
