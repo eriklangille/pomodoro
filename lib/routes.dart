@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home/index.dart';
+import 'screens/groups/widgets/index.dart';
 
 class Routes {
   final routes = <String, WidgetBuilder>{

@@ -5,6 +5,9 @@ import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
+import 'package:pomodoro/screens/stats/widgets/stats.dart';
+import 'package:pomodoro/screens/groups/widgets/groups.dart';
+import 'package:pomodoro/screens/profile/widgets/profile.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -34,13 +37,31 @@ class PomodoroState extends State<Pomodoro> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar (
+      appBar: AppBar(
           title: Text("December 28", style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
           elevation: 0,
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.insert_chart, color: Colors.black54), onPressed: null,),
-            IconButton(icon: Icon(Icons.group, color: Colors.black54), onPressed: null,),
-            IconButton(icon: Icon(Icons.person, color: Colors.black54), onPressed: null,)
+            IconButton(icon: Icon(Icons.insert_chart, color: Colors.black54),
+              onPressed: () {
+                Navigator.push(context, new MaterialPageRoute(
+                    builder: (context) =>
+                    new StatsApp())
+                );
+              }),
+            IconButton(icon: Icon(Icons.group, color: Colors.black54),
+              onPressed: () {
+                Navigator.push(context, new MaterialPageRoute(
+                    builder: (context) =>
+                    new GroupsApp())
+                );
+              }),
+            IconButton(icon: Icon(Icons.person, color: Colors.black54),
+              onPressed: () {
+                Navigator.push(context, new MaterialPageRoute(
+                    builder: (context) =>
+                    new ProfileApp())
+                );
+              })
           ]
       ),
       body: _body(),
@@ -85,6 +106,7 @@ class PomodoroState extends State<Pomodoro> {
         child: Align(
           alignment: Alignment.bottomRight,
           child: FloatingActionButton(
+            heroTag: 'add_timer',
             onPressed: () {
               print("Nice");
               vm.addItem(TaskItem("Physics Homework with the boys.", Colors.lightBlue, false, 69, new DateTime.now(), DateTime(0)));
@@ -99,6 +121,7 @@ class PomodoroState extends State<Pomodoro> {
           onPressed: () {
             vm.switchMode();
           },
+          heroTag: 'start_timer',
           backgroundColor: Colors.red,
           child: Icon(Icons.timer),),
       ),
