@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:pomodoro/screens/home/index.dart';
 import 'package:pomodoro/screens/stats/widgets/index.dart';
-import 'package:pomodoro/screens/groups/widgets/index.dart';
+import 'package:pomodoro/screens/groups/widgets/groups/index.dart';
 import 'package:pomodoro/screens/profile/widgets/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:pomodoro/data/reducer.dart';
