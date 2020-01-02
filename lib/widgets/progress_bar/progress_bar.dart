@@ -9,16 +9,16 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    height: 5,
+    height: 4,
     width: double.infinity,
     decoration: BoxDecoration(
-        color: Colors.black12
+        color: Colors.black26
     ),
     child: FractionallySizedBox(
         widthFactor: progress,
         alignment: AlignmentDirectional.topStart,
         child: Container(
-          color: Colors.red,
+          color: Colors.white,
         )
     ),
   );

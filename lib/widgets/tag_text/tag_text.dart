@@ -12,6 +12,7 @@ class TagText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => new Container(
     width: 95,
+//    color: Colors.green,
     child: Row(
       children: [
         Icon(icon, color: Colors.black54, size: 11,),

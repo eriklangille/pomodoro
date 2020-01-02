@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class AppState {
   final List<TaskItem> tasks;
+  final TimeState timeState;
+  final int countdownTime;
 
-  AppState(this.tasks);
+  AppState(this.tasks, this.timeState, this.countdownTime);
 
-  factory AppState.initial() => AppState([TaskItem("test", Colors.blue, false, 0, DateTime(0), DateTime(0))]);//AppState(List.unmodifiable([]));
+  factory AppState.initial() => AppState(List.unmodifiable([]), TimeState.none, 0);
 }
 
 class TaskItem {
@@ -20,4 +22,18 @@ class TaskItem {
   TaskItem(this.taskTitle, this.taskColor, this.completed, this.time, this.createdAt, this.dueAt);
 
   String get createdAtFormatted => DateFormat.yMMMd().add_Hm().format(createdAt);
+
+  String get timeFormatted => "${time ~/ 60}h ${time % 60}m";
+}
+
+enum TimeState {
+  none, pomodoroTime, breakTime
+}
+
+class CountdownTime {
+  final int time;
+
+  CountdownTime(this.time);
+
+
 }
