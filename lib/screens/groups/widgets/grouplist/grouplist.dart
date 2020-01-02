@@ -21,7 +21,7 @@ class _GroupListState extends State<GroupList> {
         children: <Widget>[
           CircleImage(link: group.picture, radius: 100,),
           Expanded(child:
-          Container (
+          Container(
             child:
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class _GroupListState extends State<GroupList> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      new TagText(icon: Icons.timer, text: "${group.time}"),
+                      new TagText(icon: Icons.timer, text: "${group.time ~/ 60}h ${group.time % 60}m"),
                       new TagText(icon: Icons.person, text: "${group.people}"),
                     ],
                   )
