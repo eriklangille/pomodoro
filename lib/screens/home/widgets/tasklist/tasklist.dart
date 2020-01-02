@@ -46,7 +46,7 @@ class _TaskListState extends State<TaskList> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(task.taskTitle, style: _titleStyle, textAlign: TextAlign.left),
+                  Text(task.taskTitle, style: _titleStyle, maxLines: 1, softWrap: false, overflow: TextOverflow.fade, textAlign: TextAlign.left),
                   Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

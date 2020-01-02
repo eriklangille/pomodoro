@@ -4,7 +4,8 @@ import 'package:pomodoro/data/state.dart';
 AppState appReducer(AppState state, action) => AppState(
     tasksReducer(state.tasks, action),
     timeStateReducer(state.timeState, action),
-    countdownTimeReducer(state.countdownTime, action)
+    countdownTimeReducer(state.countdownTime, action),
+    countdownReducer(state.countdown, action),
 );
 
 final Reducer<List<TaskItem>> tasksReducer = combineReducers([
@@ -29,6 +30,10 @@ final Reducer<int> countdownTimeReducer = TypedReducer<int, UpdateTimeAction>(_u
 
 int _updateTime(int countdownTime, UpdateTimeAction action) => countdownTime = action.newTime;
 
+final Reducer<bool> countdownReducer = TypedReducer<bool, PlayPauseAction>(_playPause);
+
+bool _playPause(bool countdown, PlayPauseAction action) => countdown ? false : true;
+
 // Needs to be moved to actions.dart file eventually but I'm too lazy right now.
 
 class RemoveItemAction {
@@ -52,4 +57,7 @@ class UpdateTimeAction {
   final int newTime;
 
   UpdateTimeAction(this.newTime);
+}
+
+class PlayPauseAction {
 }

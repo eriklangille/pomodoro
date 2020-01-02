@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pomodoro/data/reducer.dart';
+import 'package:intl/intl.dart';
 import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
+import 'package:pomodoro/screens/home/widgets/time_controls/index.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
@@ -16,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Pomodoro',
       theme: ThemeData(
         primaryColor: Colors.white,
+        accentColor: Colors.red,
       ),
       home: Pomodoro(),
     );
@@ -38,7 +41,7 @@ class PomodoroState extends State<Pomodoro> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-          title: Text("December 28", style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
+          title: Text(DateFormat('MMMM d').format(DateTime.now()), style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
           elevation: 0,
           actions: <Widget>[
             IconButton(icon: Icon(Icons.insert_chart, color: Colors.black54),
@@ -83,7 +86,8 @@ class PomodoroState extends State<Pomodoro> {
           children: [
             vm.store.state.timeState == TimeState.pomodoroTime ? ProgressBar(progress: 0.9) : Container(),
             vm.store.state.timeState == TimeState.pomodoroTime ? _clock(25, 0) : Container(),
-            Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.timeState,))
+            Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.timeState,)),
+            vm.store.state.timeState == TimeState.pomodoroTime ? ButtonControls(start: vm.store.state.countdown, onPlayPause: () => vm.playPause(),) : Container (),
           ]
         ),
       );
@@ -109,7 +113,7 @@ class PomodoroState extends State<Pomodoro> {
             heroTag: 'add_timer',
             onPressed: () {
               print("Nice");
-              vm.addItem(TaskItem("Physics Homework with the boys.", Colors.lightBlue, false, 69, new DateTime.now(), DateTime(0)));
+              vm.addItem(TaskItem("Physics Homework", Colors.lightBlue, false, 69, new DateTime.now(), DateTime(0)));
             },
             backgroundColor: Colors.white,
             child: Icon(Icons.add, color: Colors.black54,),),
@@ -135,12 +139,14 @@ class _ViewModel {
     this.store,
     this.addItem,
     this.switchMode,
+    this.playPause,
   });
 
   final List<TaskItem> items;
   final Store<AppState> store;
   final Function(TaskItem) addItem;
   final Function() switchMode;
+  final Function() playPause;
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
@@ -148,6 +154,7 @@ class _ViewModel {
       store: store,
       addItem: (item) => store.dispatch(new AddItemAction(item)),
       switchMode: () => store.dispatch(new DisplayPomodoroAction()),
+      playPause: () => store.dispatch(new PlayPauseAction())
     );
   }
 
