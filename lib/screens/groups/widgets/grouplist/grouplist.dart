@@ -66,11 +66,12 @@ class _GroupListState extends State<GroupList> {
 class Group {
 
   String name;
+  String description;
   int time;
   int people;
   String picture;
 
-  Group({this.name, this.time, this.people, this.picture});
+  Group({this.name, this.description, this.time, this.people, this.picture});
 
 }
 
@@ -104,6 +105,7 @@ class CircleImage extends StatelessWidget {
 
 Group UBCTryhards = Group(
     name: 'UBC Tryhards',
+    description: "Pain is temporary GPA is forever",
     time: 420,
     people: 69,
     picture: "https://i.kym-cdn.com/photos/images/newsfeed/001/499/826/2f0.png"
@@ -111,6 +113,7 @@ Group UBCTryhards = Group(
 
 Group artsStudents = Group(
   name:  "Arts Students",
+  description: "We have a lot of term papers",
   time: 0,
   people: 9001,
   picture: "https://media.breitbart.com/media/2018/10/NPC-header-1-640x480.jpg"
