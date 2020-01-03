@@ -29,10 +29,19 @@ class NewGroup extends StatefulWidget {
 class _NewGroupState extends State<NewGroup> {
 
   Widget newGroupFormField () {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: "Group Name"
-      ),
+    return Column(
+      children: <Widget>[
+        TextFormField(
+            decoration: InputDecoration(
+                labelText: "Group Name"
+            ),
+        ),
+        TextFormField(
+          decoration: InputDecoration(
+            labelText: "Group Description"
+          ),
+        ),
+      ],
     );
   }
 
