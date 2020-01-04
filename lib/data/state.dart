@@ -1,15 +1,18 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class AppState {
   final List<TaskItem> tasks;
   final TimeState timeState;
   final int countdownTime;
   final bool countdown;
+  final Timer countdownTimer;
+  final bool newTask;
 
-  AppState(this.tasks, this.timeState, this.countdownTime, this.countdown);
+  AppState(this.tasks, this.timeState, this.countdownTime, this.countdown, this.countdownTimer, this.newTask);
 
-  factory AppState.initial() => AppState(List.unmodifiable([]), TimeState.none, 0, true);
+  factory AppState.initial() => AppState(List.unmodifiable([]), TimeState.none, 10, true, null, false);
 }
 
 class TaskItem {

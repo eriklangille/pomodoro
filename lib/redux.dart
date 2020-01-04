@@ -9,6 +9,7 @@ import 'package:pomodoro/screens/groups/widgets/searchGroup/index.dart';
 import 'package:pomodoro/screens/profile/widgets/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:pomodoro/data/reducer.dart';
+import 'package:pomodoro/util/countdown.dart';
 
 
 class PomodoroApp extends StatelessWidget {
@@ -24,6 +25,7 @@ class PomodoroApp extends StatelessWidget {
   final Store<AppState> store = Store<AppState>(
     appReducer,
     initialState: AppState.initial(),
+    middleware: [CountdownMiddleware()]
   );
 
   @override

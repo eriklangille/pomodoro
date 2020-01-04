@@ -70,7 +70,7 @@ class _TaskListState extends State<TaskList> {
       borderRadius: BorderRadius.circular(12),
     ),
     foregroundDecoration: BoxDecoration(
-      color: (index == 0 || timeState == TimeState.none) ? Color(0x00ffffff) : Colors.red.withOpacity(0.2 + (0.1 * (index < 8 ? index: 7))),
+      color: (index == 0 || timeState != TimeState.pomodoroTime) ? Color(0x00ffffff) : Colors.red.withOpacity(0.2 + (0.1 * (index < 8 ? index: 7))),
     ),
   );
 
