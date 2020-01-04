@@ -37,7 +37,7 @@ class _GroupListState extends State<GroupList> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       new TagText(icon: Icons.timer, text: "${group.time ~/ 60}h ${group.time % 60}m"),
-                      new TagText(icon: Icons.person, text: "${group.members}"), // error says the group is null
+                      new TagText(icon: Icons.person, text: "0"), // fix this code
                     ],
                   )
                 ]
@@ -81,16 +81,24 @@ class Member {
 
 }
 
+class MembersLength extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 class CircleImage extends StatelessWidget {
 
   final String link;
-  final int radius;
+  final double radius;
 
   CircleImage({this.link, this.radius});
 
   @override
   Widget build(BuildContext context) {
-    double _radius = 150.0;
+    double _radius = 100;
 
     return Container(
       child: new Container(

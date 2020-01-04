@@ -48,7 +48,7 @@ class AddGroupButton extends StatelessWidget {
     final result = await Navigator.push(
       context,
       // Create the SelectionScreen in the next step.
-      MaterialPageRoute(builder: (context) => AddGroupApp()),
+      MaterialPageRoute(builder: (context) => AddGroupAppCaller()),
     );
   }
 }
