@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/widgets/tag_text/index.dart';
+import 'package:pomodoro/screens/groups/widgets/addGroup/index.dart';
+
+List<Group> groups = [
+  UBCTryhards, artsStudents
+];
 
 class GroupList extends StatefulWidget {
   @override
@@ -7,10 +12,6 @@ class GroupList extends StatefulWidget {
 }
 
 class _GroupListState extends State<GroupList> {
-
-  List<Group> groups = [
-    UBCTryhards, artsStudents
-  ];
 
   Widget groupTemplate(group) {
     return Card(

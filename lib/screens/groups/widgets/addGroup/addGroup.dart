@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/screens/groups/widgets/grouplist/index.dart';
 
 class AddGroupAppCaller extends StatelessWidget {
+  final Function(String name, String description) onSaveGroup;
+
+  AddGroupAppCaller({this.onSaveGroup});
+
   @override
   Widget build(BuildContext context) {
-    return AddGroupApp();
+    return AddGroupApp(onSaveGroup: (name, description) => onSaveGroup(name, description));
   }
 }
 
