@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/util/parsedate.dart';
 import 'package:pomodoro/widgets/circle_button/index.dart';
 import 'package:pomodoro/widgets/tag_text/index.dart';
 import 'package:pomodoro/data/state.dart';
@@ -51,7 +52,7 @@ class _TaskListState extends State<TaskList> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     new TagText(icon: Icons.timer, text: task.timeFormatted),
-                    new TagText(icon: Icons.event, text: "Tomorrow"),
+                    new TagText(icon: Icons.event, text: ParseDate.showDay(task.dueAt)),
                   ],
                 )
               ]
@@ -64,7 +65,7 @@ class _TaskListState extends State<TaskList> {
         ]
     ),
     margin: const EdgeInsets.all(5),
-    padding: const EdgeInsets.all(10.0),
+    padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
     decoration: BoxDecoration(
       color: Color(0xffffffff),
       borderRadius: BorderRadius.circular(12),

@@ -16,6 +16,7 @@ class AppState {
 }
 
 class TaskItem {
+  final int key;
   final String taskTitle;
   final Color taskColor;
   final bool completed;
@@ -23,7 +24,7 @@ class TaskItem {
   final DateTime createdAt;
   final DateTime dueAt;
 
-  TaskItem(this.taskTitle, this.taskColor, this.completed, this.time, this.createdAt, this.dueAt);
+  TaskItem(this.key, this.taskTitle, this.taskColor, this.completed, this.time, this.createdAt, this.dueAt);
 
   String get createdAtFormatted => DateFormat.yMMMd().add_Hm().format(createdAt);
 

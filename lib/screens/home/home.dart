@@ -79,9 +79,11 @@ class PomodoroState extends State<Pomodoro> {
     );
   }
 
-  _addTask(_ViewModel vm, String text) {
+  _addTask(_ViewModel vm, String text, DateTime date) {
     vm.hideNewTask();
-    vm.addItem(TaskItem(text, Colors.lightBlue, false, 0, new DateTime.now(), DateTime(0)));
+    if (text != "") {
+      vm.addItem(TaskItem(vm.store.state.tasks.length, text, Colors.lightBlue, false, 0, new DateTime.now(), date));
+    }
   }
   
   Widget _body() => StoreConnector<AppState, _ViewModel>(
@@ -93,7 +95,7 @@ class PomodoroState extends State<Pomodoro> {
             vm.store.state.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.countdownTime / 10) : Container(),
             vm.store.state.timeState != TimeState.none ? _clock(vm.store.state.countdownTime ~/ 60, vm.store.state.countdownTime % 60) : Container(),
             Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.timeState,)),
-            vm.store.state.newTask ? NewTask(onSave: (text) => _addTask(vm, text),) : Container(),
+            vm.store.state.newTask ? NewTask(onSave: (text, chosenDate) => _addTask(vm, text, chosenDate),) : Container(),
             vm.store.state.timeState != TimeState.none ? ButtonControls(start: vm.store.state.countdown, backgroundColor: vm.store.state.timeState == TimeState.pomodoroTime ? Colors.red : Colors.blue, onPlayPause: () => vm.playPause(), onStop: () => vm.noneMode(),) : Container (),
           ]
         ),
