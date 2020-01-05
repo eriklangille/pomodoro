@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pomodoro/data/reducer.dart';
+import 'package:pomodoro/data/tasks/actions.dart';
+import 'package:pomodoro/data/tasks/state.dart';
 import 'package:intl/intl.dart';
 import 'package:pomodoro/screens/home/widgets/new_task/index.dart';
 import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
@@ -82,21 +83,21 @@ class PomodoroState extends State<Pomodoro> {
   _addTask(_ViewModel vm, String text, DateTime date) {
     vm.hideNewTask();
     if (text != "") {
-      vm.addItem(TaskItem(vm.store.state.tasks.length, text, Colors.lightBlue, false, 0, new DateTime.now(), date));
+      vm.addItem(TaskItem(vm.store.state.tasksState.tasks.length, text, Colors.lightBlue, false, 0, new DateTime.now(), date));
     }
   }
   
   Widget _body() => StoreConnector<AppState, _ViewModel>(
     builder: (context, vm) {
       return Container(
-        color: vm.store.state.timeState == TimeState.pomodoroTime ? Colors.red : (vm.store.state.timeState == TimeState.breakTime ? Colors.blue : Color(0xfff2f2f2)),
+        color: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : (vm.store.state.tasksState.timeState == TimeState.breakTime ? Colors.blue : Color(0xfff2f2f2)),
         child: Column(
           children: [
-            vm.store.state.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.countdownTime / 10) : Container(),
-            vm.store.state.timeState != TimeState.none ? _clock(vm.store.state.countdownTime ~/ 60, vm.store.state.countdownTime % 60) : Container(),
-            Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.timeState,)),
-            vm.store.state.newTask ? NewTask(onSave: (text, chosenDate) => _addTask(vm, text, chosenDate),) : Container(),
-            vm.store.state.timeState != TimeState.none ? ButtonControls(start: vm.store.state.countdown, backgroundColor: vm.store.state.timeState == TimeState.pomodoroTime ? Colors.red : Colors.blue, onPlayPause: () => vm.playPause(), onStop: () => vm.noneMode(),) : Container (),
+            vm.store.state.tasksState.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.tasksState.countdownTime / 10) : Container(),
+            vm.store.state.tasksState.timeState != TimeState.none ? _clock(vm.store.state.tasksState.countdownTime ~/ 60, vm.store.state.tasksState.countdownTime % 60) : Container(),
+            Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.tasksState.timeState,)),
+            vm.store.state.tasksState.newTask ? NewTask(onSave: (text, chosenDate) => _addTask(vm, text, chosenDate),) : Container(),
+            vm.store.state.tasksState.timeState != TimeState.none ? ButtonControls(start: vm.store.state.tasksState.countdown, backgroundColor: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : Colors.blue, onPlayPause: () => vm.playPause(), onStop: () => vm.noneMode(),) : Container (),
           ]
         ),
       );
@@ -114,7 +115,7 @@ class PomodoroState extends State<Pomodoro> {
   );
 
   Widget _fab(_ViewModel vm) => Stack(
-    children: vm.store.state.timeState != TimeState.none || vm.store.state.newTask ? [] : <Widget>[
+    children: vm.store.state.tasksState.timeState != TimeState.none || vm.store.state.tasksState.newTask ? [] : <Widget>[
       Padding(padding: EdgeInsets.only(bottom:70),
         child: Align(
           alignment: Alignment.bottomRight,
@@ -165,7 +166,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      items: store.state.tasks,
+      items: store.state.tasksState.tasks,
       store: store,
       addItem: (item) => store.dispatch(new AddItemAction(item)),
       pomodoroMode: () => store.dispatch(new DisplayPomodoroAction()),

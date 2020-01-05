@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/util/parsedate.dart';
 import 'package:pomodoro/widgets/circle_button/index.dart';
 import 'package:pomodoro/widgets/tag_text/index.dart';
-import 'package:pomodoro/data/state.dart';
+import 'package:pomodoro/data/tasks/state.dart';
 
 class TaskList extends StatefulWidget {
   TaskList({

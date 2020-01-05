@@ -1,5 +1,4 @@
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pomodoro/data/reducer.dart';
+import 'package:pomodoro/data/tasks/actions.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
 
@@ -17,17 +16,17 @@ class CountdownMiddleware extends MiddlewareClass<AppState> {
       next(new UpdateTimeAction(_DEFAULT_BREAK_TIME));
     }
 
-    if(action is PlayPauseAction && store.state.countdown) {
-      next(new StartTimerAction(_DEFAULT_TIME, () => !store.state.countdown ? (store.state.countdownTime < 1 ? _pomoCountdownFinish() : next(new UpdateTimeAction(store.state.countdownTime - 1))) : null));
-      print(store.state.countdownTime);
+    if(action is PlayPauseAction && store.state.tasksState.countdown) {
+      next(new StartTimerAction(_DEFAULT_TIME, () => !store.state.tasksState.countdown ? (store.state.tasksState.countdownTime < 1 ? _pomoCountdownFinish() : next(new UpdateTimeAction(store.state.tasksState.countdownTime - 1))) : null));
+      print(store.state.tasksState.countdownTime);
     }
 
     if(action is PlayPauseAction) {
-      print("${store.state.countdown ? "playing - show pause button" : "paused - show play button"}");
+      print("${store.state.tasksState.countdown ? "playing - show pause button" : "paused - show play button"}");
     }
 
     if(action is DisplayNoneAction) {
-      if(!store.state.countdown) {
+      if(!store.state.tasksState.countdown) {
         next(new PlayPauseAction());
       }
       next(new StopTimerAction());
