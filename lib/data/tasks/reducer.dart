@@ -23,13 +23,16 @@ List<TaskItem> _addItem(List<TaskItem> tasks, AddItemAction action) => List.unmo
 
 final Reducer<TimeState> timeStateReducer = combineReducers<TimeState>([
   TypedReducer<TimeState, DisplayPomodoroAction>(_displayPomodoro),
-  TypedReducer<TimeState, DisplayBreakAction>(_displayBreak),
+  TypedReducer<TimeState, DisplayShortBreakAction>(_displayShortBreak),
+  TypedReducer<TimeState, DisplayLongBreakAction>(_displayLongBreak),
   TypedReducer<TimeState, DisplayNoneAction>(_displayNone)
 ]);
 
 TimeState _displayPomodoro(TimeState timeState, DisplayPomodoroAction action) => TimeState.pomodoroTime;
 
-TimeState _displayBreak(TimeState timeState, DisplayBreakAction action) => TimeState.breakTime;
+TimeState _displayShortBreak(TimeState timeState, DisplayShortBreakAction action) => TimeState.shortBreakTime;
+
+TimeState _displayLongBreak(TimeState timeState, DisplayLongBreakAction action) => TimeState.longBreakTime;
 
 TimeState _displayNone(TimeState timeState, DisplayNoneAction action) => TimeState.none;
 

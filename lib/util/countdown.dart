@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/data/tasks/actions.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
+import 'package:pomodoro/data/tasks/state.dart';
+
 
 class Timer {
 
@@ -37,7 +39,6 @@ class CountdownMiddleware extends MiddlewareClass<AppState> {
     _pomoCountdownFinish() {
 
       next(new StopTimerAction());
-      next(new DisplayBreakAction());
 
       timerIteration += 1;
 
@@ -47,17 +48,16 @@ class CountdownMiddleware extends MiddlewareClass<AppState> {
       if (timerIteration % 2 == 0) {
         if (timerIteration % 8 == 0) {
           next(new UpdateTimeAction(longBreakTimer.duration));
-          // change the value of backgroundColor to longBreakTimer.color
-          
+          next(new DisplayLongBreakAction());
         }
         else {
           next(new UpdateTimeAction(shortBreakTimer.duration));
-          // change the value of backgroundColor to shortBreakTimer.color
+          next(new DisplayShortBreakAction());
         }
       }
       else {
         next(new UpdateTimeAction(workTimer.duration));
-        // change the value of backgroundColor to workTimer.color
+        next(new DisplayPomodoroAction());
       }
     }
 
