@@ -9,23 +9,6 @@ import 'package:pomodoro/screens/home/widgets/time_controls/index.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
-import 'package:pomodoro/screens/stats/widgets/index.dart';
-import 'package:pomodoro/screens/groups/widgets/groups/index.dart';
-import 'package:pomodoro/screens/profile/index.dart';
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pomodoro',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        accentColor: Colors.red,
-      ),
-      home: Pomodoro()//Pomodoro(),
-    );
-  }
-}
 
 class Pomodoro extends StatefulWidget {
   @override
@@ -48,24 +31,15 @@ class PomodoroState extends State<Pomodoro> {
           actions: <Widget>[
             IconButton(icon: Icon(Icons.insert_chart, color: Colors.black54),
               onPressed: () {
-                Navigator.push(context, new MaterialPageRoute(
-                    builder: (context) =>
-                    new StatsApp())
-                );
+                Navigator.pushNamed(context, '/stats');
               }),
             IconButton(icon: Icon(Icons.group, color: Colors.black54),
               onPressed: () {
-                Navigator.push(context, new MaterialPageRoute(
-                    builder: (context) =>
-                    new GroupsApp())
-                );
+                Navigator.pushNamed(context, '/groups');
               }),
             IconButton(icon: Icon(Icons.person, color: Colors.black54),
               onPressed: () {
-                Navigator.push(context, new MaterialPageRoute(
-                    builder: (context) =>
-                    new ProfileApp())
-                );
+                Navigator.pushNamed(context, '/registration');
               })
           ]
       ),

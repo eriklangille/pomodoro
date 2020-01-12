@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pomodoro/services/database.dart';
 
 class AuthService {
 
@@ -32,6 +33,7 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       // TODO: Created document for this user.
+      await DatabaseService(uid: user.uid).updateUserData(null, 0, 0);
       return user;
     } catch (e) {
       print(e.toString());
