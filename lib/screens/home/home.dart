@@ -94,7 +94,7 @@ class PomodoroState extends State<Pomodoro> {
         color: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : (vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? workTimer.color : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? shortBreakTimer.color : vm.store.state.tasksState.timeState == TimeState.longBreakTime ? longBreakTimer.color : Color(0xfff2f2f2)),
         child: Column(
           children: [
-            vm.store.state.tasksState.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.tasksState.countdownTime / 10) : Container(),
+            vm.store.state.tasksState.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? vm.store.state.tasksState.countdownTime / workTimer.duration : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? vm.store.state.tasksState.countdownTime / shortBreakTimer.duration : longBreakTimer.duration) : Container(),
             vm.store.state.tasksState.timeState != TimeState.none ? _clock(vm.store.state.tasksState.countdownTime ~/ 60, vm.store.state.tasksState.countdownTime % 60) : Container(),
             Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.tasksState.timeState,)),
             vm.store.state.tasksState.newTask ? NewTask(onSave: (text, chosenDate) => _addTask(vm, text, chosenDate),) : Container(),
