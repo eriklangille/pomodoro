@@ -33,7 +33,7 @@ class TaskItem {
 }
 
 enum TimeState {
-  none, pomodoroTime, breakTime, longBreakTime
+  none, pomodoroTime, shortBreakTime, longBreakTime
 }
 
 class CountdownTime {

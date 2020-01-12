@@ -14,7 +14,8 @@ class AddItemAction {
 
 class DisplayPomodoroAction {}
 class DisplayNoneAction {}
-class DisplayBreakAction {}
+class DisplayShortBreakAction {}
+class DisplayLongBreakAction {}
 
 class SaveListAction {}
 
@@ -32,6 +33,9 @@ class StartTimerAction {
   final Function() tick;
 
   StartTimerAction(this.startTime, this.tick);
+}
+
+class PomodoroTimerAction{
 }
 
 class StopTimerAction {

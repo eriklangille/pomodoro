@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:pomodoro/screens/home/widgets/new_task/index.dart';
 import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
 import 'package:pomodoro/screens/home/widgets/time_controls/index.dart';
+import 'package:pomodoro/util/countdown.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
@@ -64,14 +65,14 @@ class PomodoroState extends State<Pomodoro> {
   Widget _body() => StoreConnector<AppState, _ViewModel>(
     builder: (context, vm) {
       return Container(
-        color: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : (vm.store.state.tasksState.timeState == TimeState.breakTime ? Colors.blue : Color(0xfff2f2f2)),
+        color: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : (vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? workTimer.color : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? shortBreakTimer.color : vm.store.state.tasksState.timeState == TimeState.longBreakTime ? longBreakTimer.color : Color(0xfff2f2f2)),
         child: Column(
           children: [
             vm.store.state.tasksState.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.tasksState.countdownTime / 10) : Container(),
             vm.store.state.tasksState.timeState != TimeState.none ? _clock(vm.store.state.tasksState.countdownTime ~/ 60, vm.store.state.tasksState.countdownTime % 60) : Container(),
             Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.tasksState.timeState,)),
             vm.store.state.tasksState.newTask ? NewTask(onSave: (text, chosenDate) => _addTask(vm, text, chosenDate),) : Container(),
-            vm.store.state.tasksState.timeState != TimeState.none ? ButtonControls(start: vm.store.state.tasksState.countdown, backgroundColor: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : Colors.blue, onPlayPause: () => vm.playPause(), onStop: () => vm.noneMode(),) : Container (),
+            vm.store.state.tasksState.timeState != TimeState.none ? ButtonControls(start: vm.store.state.tasksState.countdown, backgroundColor: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? workTimer.color : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? shortBreakTimer.color : longBreakTimer.color , onPlayPause: () => vm.playPause(), onStop: () => vm.noneMode(),) : Container (),
           ]
         ),
       );
