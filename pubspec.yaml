@@ -46,6 +46,8 @@ flutter:
       fonts:
         - asset: lib/fonts/Poppins-Regular.ttf
           weight: 400
+        - asset: lib/fonts/Poppins-Medium.ttf
+          weight: 500
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

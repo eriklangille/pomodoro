@@ -20,9 +20,9 @@ class AuthService {
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       return user;
-    } catch(e) {
+    } on AuthException catch(e) {
       print(e.toString());
-      return null;
+      return Future.error(e);
     }
   }
 
@@ -32,10 +32,10 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       // TODO: Created document for this user.
-
+      return user;
     } catch (e) {
       print(e.toString());
-      return null;
+      return Future.error(e);
     }
   }
 

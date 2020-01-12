@@ -11,7 +11,7 @@ import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
 import 'package:pomodoro/screens/stats/widgets/index.dart';
 import 'package:pomodoro/screens/groups/widgets/groups/index.dart';
-import 'package:pomodoro/screens/profile/widgets/index.dart';
+import 'package:pomodoro/screens/profile/index.dart';
 
 class MyApp extends StatelessWidget {
   @override
