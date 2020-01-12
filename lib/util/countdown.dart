@@ -1,10 +1,31 @@
+import 'package:flutter/material.dart';
 import 'package:pomodoro/data/tasks/actions.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
 
-const int _DEFAULT_TIME = 10;
-const int _DEFAULT_BREAK_TIME = 5;
-const int _LONG_BREAK_TIME = 15;
+class Timer {
+
+  int duration;
+  Color color;
+
+  Timer({this.duration, this.color,});
+
+}
+
+Timer workTimer = Timer(
+  duration: 10,
+  color: Colors.red
+);
+
+Timer shortBreakTimer = Timer(
+  duration: 5,
+  color: Colors.blue
+);
+
+Timer longBreakTimer = Timer(
+  duration: 15,
+  color: Colors.green
+);
 
 var timerIteration = 1;
 
@@ -22,19 +43,19 @@ class CountdownMiddleware extends MiddlewareClass<AppState> {
 
       if (timerIteration % 2 == 0) {
         if (timerIteration % 8 == 0) {
-          next(new UpdateTimeAction(_LONG_BREAK_TIME));
+          next(new UpdateTimeAction(longBreakTimer.duration));
         }
         else {
-          next(new UpdateTimeAction(_DEFAULT_BREAK_TIME));
+          next(new UpdateTimeAction(shortBreakTimer.duration));
         }
       }
       else {
-        next(new UpdateTimeAction(_DEFAULT_TIME));
+        next(new UpdateTimeAction(workTimer.duration));
       }
     }
 
     if(action is PlayPauseAction && store.state.tasksState.countdown) {
-      next(new StartTimerAction(_DEFAULT_TIME, () => !store.state.tasksState.countdown ? (store.state.tasksState.countdownTime < 1 ? _pomoCountdownFinish() : next(new UpdateTimeAction(store.state.tasksState.countdownTime - 1))) : null));
+      next(new StartTimerAction(workTimer.duration, () => !store.state.tasksState.countdown ? (store.state.tasksState.countdownTime < 1 ? _pomoCountdownFinish() : next(new UpdateTimeAction(store.state.tasksState.countdownTime - 1))) : null));
       //print(store.state.tasksState.countdownTime);
     }
 
