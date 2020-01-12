@@ -41,16 +41,23 @@ class CountdownMiddleware extends MiddlewareClass<AppState> {
 
       timerIteration += 1;
 
+      // change the value of start to true
+      next(new PlayPauseAction());
+
       if (timerIteration % 2 == 0) {
         if (timerIteration % 8 == 0) {
           next(new UpdateTimeAction(longBreakTimer.duration));
+          // change the value of backgroundColor to longBreakTimer.color
+          
         }
         else {
           next(new UpdateTimeAction(shortBreakTimer.duration));
+          // change the value of backgroundColor to shortBreakTimer.color
         }
       }
       else {
         next(new UpdateTimeAction(workTimer.duration));
+        // change the value of backgroundColor to workTimer.color
       }
     }
 
@@ -59,17 +66,11 @@ class CountdownMiddleware extends MiddlewareClass<AppState> {
       //print(store.state.tasksState.countdownTime);
     }
 
-    if(action is PlayPauseAction) {
-      //print("${store.state.tasksState.countdown ? "playing - show pause button" : "paused - show play button"}");
-    }
-
     if(action is DisplayNoneAction) {
       if(!store.state.tasksState.countdown) {
         next(new PlayPauseAction());
       }
       next(new StopTimerAction());
-      //print("stop");
-     // next(new UpdateTimeAction(_DEFAULT_TIME));
     }
 
     next(action);
