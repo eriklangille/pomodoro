@@ -4,14 +4,14 @@ import 'screens/groups/widgets/groups/index.dart';
 
 class Routes {
   final routes = <String, WidgetBuilder>{
-    '/home': (BuildContext context) => new MyApp()
+    '/home': (BuildContext context) => new Pomodoro()
   };
 
   Routes () {
     runApp(new MaterialApp(
       title: 'Pomodoro',
       routes: routes,
-      home: new MyApp(),
+      home: new Pomodoro(),
     ));
   }
 }

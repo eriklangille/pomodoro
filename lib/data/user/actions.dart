@@ -14,7 +14,7 @@ class SetUserAction {
   SetUserAction(this.user);
 }
 
-ThunkAction loginUser(String username, String password) {
+ThunkAction registerUser(String username, String password) {
   return (Store store) async {
     new Future(() async{
       AuthService _auth = new AuthService();
@@ -22,27 +22,22 @@ ThunkAction loginUser(String username, String password) {
       _auth.registerEmail(username, password).then((loginResponse) {
         store.dispatch(new LoginSuccessAction());
         store.dispatch(new SetUserAction(loginResponse));
-        store.dispatch(new LoginFailedAction(passwordAlert: "", usernameAlert: ""));
+        store.dispatch(new RegistrationFailedAction(passwordAlert: "", usernameAlert: ""));
 //        Keys.navKey.currentState.pushNamed(Routes.homeScreen);
       }, onError: (error) {
         ErrorMessage _error = ParseError.registerError(error.code);
         print(_error.message);
         if(_error.type == "username") {
-          store.dispatch(new LoginFailedAction(usernameAlert: _error.message, passwordAlert: ""));
+          store.dispatch(new RegistrationFailedAction(usernameAlert: _error.message, passwordAlert: ""));
         } else if(_error.type == "password") {
-          store.dispatch(new LoginFailedAction(passwordAlert: _error.message, usernameAlert: ""));
+          store.dispatch(new RegistrationFailedAction(passwordAlert: _error.message, usernameAlert: ""));
         }
       });
     });
   };
 }
 
-class LoginScreenAction {
-  final TextEditingController displayName;
-  final TextEditingController username;
-  final TextEditingController password;
-
-  LoginScreenAction(this.displayName, this.username, this.password);
+class RegistrationScreenAction {
 }
 
 class StartLoadingAction {
@@ -52,9 +47,9 @@ class StartLoadingAction {
 class LoginSuccessAction {
 }
 
-class LoginFailedAction {
+class RegistrationFailedAction {
   final String usernameAlert;
   final String passwordAlert;
 
-  LoginFailedAction({this.usernameAlert, this.passwordAlert});
+  RegistrationFailedAction({this.usernameAlert, this.passwordAlert});
 }
