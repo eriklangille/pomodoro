@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pomodoro/data/user/actions.dart';
 import 'package:pomodoro/data/user/state.dart';
+import 'package:pomodoro/widgets/action_button/action_button.dart';
 import 'package:redux/redux.dart';
 import 'package:pomodoro/data/state.dart';
-import 'package:pomodoro/services/auth.dart';
 
 class ProfileApp extends StatefulWidget {
   final TextEditingController displayNameController;
@@ -18,7 +18,6 @@ class ProfileApp extends StatefulWidget {
 }
 
 class ProfileAppState extends State<ProfileApp> {
-  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,15 @@ class ProfileAppState extends State<ProfileApp> {
             elevation: 0,
           ),
           body: Container(
-            child: Text("Profile coming soon")
+            child: Column(
+              children: <Widget>[
+                Text("${vm.userState.currentUser != null ? vm.userState.currentUser.displayName : ""}. Email: ${vm.userState.currentUser != null ? vm.userState.currentUser.email : ""}"),
+                ActionButton(text: "Sign Out", color: Colors.red,onTap: () async {
+                  vm.signOut();
+                  print("pressed");
+                }),
+              ],
+            )
           ),
         );
       },
@@ -44,24 +51,20 @@ class ProfileAppState extends State<ProfileApp> {
 }
 
 class ViewModel {
-  final RegistrationScreen registrationScreen;
-  final Function(String, String, String) register;
-  //final Function({String displayName, String username, String password}) updateLogin;
+  final UserState userState;
+  final Function() signOut;
 
   ViewModel({
-    this.registrationScreen,
-    this.register,
-    //this.updateLogin,
+    this.userState,
+    this.signOut,
   });
 
   static ViewModel fromStore(Store<AppState> store) {
     return ViewModel(
-      // Implement return.
-      registrationScreen: store.state.userState.registrationScreen,
-      register: (String displayName, String username, String password) {
-        store.dispatch(registerUser(username, password));
+      userState: store.state.userState,
+      signOut: () {
+        store.dispatch(signOutUser());
       },
-      //updateLogin: ({displayName, username, password}) => store.dispatch(new LoginScreenAction(displayName, username, password))
     );
   }
 }

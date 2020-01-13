@@ -16,12 +16,14 @@ class AuthService {
     }
   }
 
+  Future<FirebaseUser> get getCurrentUser => _auth.currentUser();
+
   Future signInEmail(String email, String password) async {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       return user;
-    } on AuthException catch(e) {
+    } catch(e) {
       print(e.toString());
       return Future.error(e);
     }

@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pomodoro/data/tasks/actions.dart';
 import 'package:pomodoro/data/tasks/state.dart';
 import 'package:intl/intl.dart';
+import 'package:pomodoro/data/user/actions.dart';
 import 'package:pomodoro/screens/home/widgets/new_task/index.dart';
 import 'package:pomodoro/screens/home/widgets/tasklist/index.dart';
 import 'package:pomodoro/screens/home/widgets/time_controls/index.dart';
@@ -25,33 +26,36 @@ class PomodoroState extends State<Pomodoro> {
   );
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-          title: Text(DateFormat('MMMM d').format(DateTime.now()), style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
-          elevation: 0,
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.insert_chart, color: Colors.black54),
-              onPressed: () {
-                Navigator.pushNamed(context, '/stats');
-              }),
-            IconButton(icon: Icon(Icons.group, color: Colors.black54),
-              onPressed: () {
-                Navigator.pushNamed(context, '/groups');
-              }),
-            IconButton(icon: Icon(Icons.person, color: Colors.black54),
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              })
-          ]
-      ),
-      body: _body(),
-      floatingActionButton: StoreConnector<AppState, _ViewModel>(
-        builder: (context, vm) {
-          return _fab(vm);
-        },
-        converter: _ViewModel.fromStore,
-      ),
-      backgroundColor: const Color(0xfff2f2f2),
+    return StoreConnector<AppState, _ViewModel>(
+      onInit: (store){
+        store.dispatch(refreshUser());
+      },
+      builder: (context, vm) {
+        return Scaffold(
+          appBar: AppBar(
+              title: Text(DateFormat('MMMM d').format(DateTime.now()), style: TextStyle(fontFamily: 'Poppins', color: Colors.black87)),
+              elevation: 0,
+              actions: <Widget>[
+                IconButton(icon: Icon(Icons.insert_chart, color: Colors.black54),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/stats');
+                    }),
+                IconButton(icon: Icon(Icons.group, color: Colors.black54),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/groups');
+                    }),
+                IconButton(icon: Icon(Icons.person, color: Colors.black54),
+                    onPressed: () {
+                      Navigator.pushNamed(context, (vm.store.state.userState.currentUser == null ? '/registration': '/profile'));
+                    })
+              ]
+          ),
+          body: _body(vm),
+          floatingActionButton: _fab(vm),
+          backgroundColor: const Color(0xfff2f2f2),
+        );
+      },
+      converter: _ViewModel.fromStore,
     );
   }
 
@@ -62,9 +66,7 @@ class PomodoroState extends State<Pomodoro> {
     }
   }
   
-  Widget _body() => StoreConnector<AppState, _ViewModel>(
-    builder: (context, vm) {
-      return Container(
+  Widget _body(_ViewModel vm) => Container(
         color: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? Colors.red : (vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? workTimer.color : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? shortBreakTimer.color : vm.store.state.tasksState.timeState == TimeState.longBreakTime ? longBreakTimer.color : Color(0xfff2f2f2)),
         child: Column(
           children: [
@@ -76,9 +78,6 @@ class PomodoroState extends State<Pomodoro> {
           ]
         ),
       );
-    },
-    converter: _ViewModel.fromStore,
-  );
 
   Widget _clock(int minute, int second) => Container(
     height: 100,

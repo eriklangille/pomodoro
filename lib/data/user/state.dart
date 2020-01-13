@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UserState {
   final FirebaseUser currentUser;
   final RegistrationScreen registrationScreen;
+  final LoginScreen loginScreen;
 
-  UserState(this.currentUser, this.registrationScreen);
+  UserState(this.currentUser, this.registrationScreen, this.loginScreen);
 
-  factory UserState.initial() => UserState(null, RegistrationScreen.initial());
+  factory UserState.initial() => UserState(null, RegistrationScreen.initial(), LoginScreen.initial());
 
 }
 
@@ -20,21 +21,39 @@ class User {
 class RegistrationScreen {
   final String usernameAlert;
   final String passwordAlert;
-  final FocusNode focus;
 
-  RegistrationScreen({this.focus, this.usernameAlert, this.passwordAlert});
+  RegistrationScreen({this.usernameAlert, this.passwordAlert});
 
   factory RegistrationScreen.initial() {
-    return new RegistrationScreen(focus: new FocusNode(), usernameAlert: "", passwordAlert: "",);
+    return new RegistrationScreen(usernameAlert: "", passwordAlert: "",);
   }
 
   RegistrationScreen copyWith({
-    FocusNode focus,
     String usernameAlert,
     String passwordAlert,
   }) {
     return RegistrationScreen(
-      focus: focus ?? this.focus,
+      usernameAlert: usernameAlert ?? this.usernameAlert,
+      passwordAlert: passwordAlert ?? this.passwordAlert,
+    );
+  }
+}
+
+class LoginScreen {
+  final String usernameAlert;
+  final String passwordAlert;
+
+  LoginScreen({this.usernameAlert, this.passwordAlert});
+
+  factory LoginScreen.initial() {
+    return new LoginScreen(usernameAlert: "", passwordAlert: "",);
+  }
+
+  LoginScreen copyWith({
+    String usernameAlert,
+    String passwordAlert,
+  }) {
+    return LoginScreen(
       usernameAlert: usernameAlert ?? this.usernameAlert,
       passwordAlert: passwordAlert ?? this.passwordAlert,
     );

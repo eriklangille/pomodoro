@@ -12,7 +12,9 @@ import 'package:pomodoro/data/state.dart';
 import 'package:pomodoro/data/reducer.dart';
 import 'package:pomodoro/util/countdown.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:pomodoro/screens/login/login.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 class PomodoroApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
@@ -23,6 +25,7 @@ class PomodoroApp extends StatelessWidget {
     '/searchGroup': (BuildContext context) => new SearchGroupApp(),
     '/profile': (BuildContext context) => new ProfileApp(),
     '/registration': (BuildContext context) => new RegistrationApp(),
+    '/login': (BuildContext context) => new LoginApp(),
   };
 
   final Store<AppState> store = Store<AppState>(
@@ -40,6 +43,7 @@ class PomodoroApp extends StatelessWidget {
         primaryColor: Colors.white,
         accentColor: Colors.red,
       ),
+      navigatorKey: navigatorKey,
       initialRoute: '/',
       routes: routes,
       onUnknownRoute: (settings) => MaterialPageRoute(
