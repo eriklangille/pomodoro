@@ -1,5 +1,9 @@
 # Pomotask
 
+<p align="center">
+<img src="screenshots/pomo1.jpg" alt="ClickScan" width="200"/>
+</p>
+
 In my third year of studying my friends and I discovered the power of the Pomodoro technique - focus for 25 minutes then take a 5 minute break. After mastering the technique we wanted to use an app to make it easier and be held accountable. We found a couple of apps that worked alright, but we often found their interfaces frustrating or did not have all the features we wanted.
 
 It was at this point that I decided to create my own app for task management. I chose to use [Flutter](https://flutter.dev) in order for efficient, multi-platform support and because of previous experience using ReactJS. I also used [Redux](https://blog.novoda.com/introduction-to-redux-in-flutter/)
@@ -13,9 +17,6 @@ It was at this point that I decided to create my own app for task management. I 
 
 ## Screenshots
 
-<p align="center">
-<img src="screenshots/pomo1.jpg" alt="ClickScan" width="250"/>
-</p>
 <p align="center">
 <img src="screenshots/pomo2.jpg" alt="ClickScan" width="250"/>
 </p>
