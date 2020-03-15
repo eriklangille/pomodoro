@@ -17,7 +17,7 @@ class TasksState {
 }
 
 class TaskItem {
-  final int key;
+  final Key key;
   final String taskTitle;
   final Color taskColor;
   final bool completed;

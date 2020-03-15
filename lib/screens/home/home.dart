@@ -62,7 +62,7 @@ class PomodoroState extends State<Pomodoro> {
   _addTask(_ViewModel vm, String text, DateTime date) {
     vm.hideNewTask();
     if (text != "") {
-      vm.addItem(TaskItem(vm.store.state.tasksState.tasks.length, text, Colors.lightBlue, false, 0, new DateTime.now(), date));
+      vm.addItem(TaskItem(ValueKey(vm.store.state.tasksState.tasks.length), text, Colors.lightBlue, false, 0, new DateTime.now(), date));
     }
   }
   
@@ -72,7 +72,8 @@ class PomodoroState extends State<Pomodoro> {
           children: [
             vm.store.state.tasksState.timeState != TimeState.none ? ProgressBar(progress: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? vm.store.state.tasksState.countdownTime / workTimer.duration : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? vm.store.state.tasksState.countdownTime / shortBreakTimer.duration : vm.store.state.tasksState.countdownTime / longBreakTimer.duration) : Container(),
             vm.store.state.tasksState.timeState != TimeState.none ? _clock(vm.store.state.tasksState.countdownTime ~/ 60, vm.store.state.tasksState.countdownTime % 60) : Container(),
-            Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.tasksState.timeState,)),
+            Expanded(child: new TaskList(items: vm.items, timeState: vm.store.state.tasksState.timeState, reorderItem: (oldIndex, newIndex) => vm.reorderItem(oldIndex, newIndex),)),
+//            Container(child: new TaskList(items: vm.items, timeState: vm.store.state.tasksState.timeState, reorderItem: (oldIndex, newIndex) => vm.reorderItem(oldIndex, newIndex),), height: 300,),
             vm.store.state.tasksState.newTask ? NewTask(onSave: (text, chosenDate) => _addTask(vm, text, chosenDate),) : Container(),
             vm.store.state.tasksState.timeState != TimeState.none ? ButtonControls(start: vm.store.state.tasksState.countdown, backgroundColor: vm.store.state.tasksState.timeState == TimeState.pomodoroTime ? workTimer.color : vm.store.state.tasksState.timeState == TimeState.shortBreakTime ? shortBreakTimer.color : longBreakTimer.color , onPlayPause: () => vm.playPause(), onStop: () => vm.noneMode(),) : Container (),
           ]
@@ -122,6 +123,7 @@ class _ViewModel {
     this.items,
     this.store,
     this.addItem,
+    this.reorderItem,
     this.pomodoroMode,
     this.noneMode,
     this.playPause,
@@ -132,6 +134,7 @@ class _ViewModel {
   final List<TaskItem> items;
   final Store<AppState> store;
   final Function(TaskItem) addItem;
+  final Function(int, int) reorderItem;
   final Function() pomodoroMode;
   final Function() noneMode;
   final Function() playPause;
@@ -143,6 +146,7 @@ class _ViewModel {
       items: store.state.tasksState.tasks,
       store: store,
       addItem: (item) => store.dispatch(new AddItemAction(item)),
+      reorderItem: (oldIndex, newIndex) => store.dispatch(new ReorderItemAction(oldIndex, newIndex)),
       pomodoroMode: () => store.dispatch(new DisplayPomodoroAction()),
       noneMode: () => store.dispatch(new DisplayNoneAction()),
       playPause: () => store.dispatch(new PlayPauseAction()),

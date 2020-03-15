@@ -12,6 +12,13 @@ class AddItemAction {
   AddItemAction(this.item);
 }
 
+class ReorderItemAction {
+  final int oldIndex;
+  final int newIndex;
+
+  ReorderItemAction(this.oldIndex, this.newIndex);
+}
+
 class DisplayPomodoroAction {}
 class DisplayNoneAction {}
 class DisplayShortBreakAction {}

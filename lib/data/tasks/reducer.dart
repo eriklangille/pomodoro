@@ -15,11 +15,20 @@ TasksState tasksReducer(TasksState state, action) => TasksState(
 final Reducer<List<TaskItem>> tasksItemReducer = combineReducers([
   TypedReducer<List<TaskItem>, AddItemAction>(_addItem),
   TypedReducer<List<TaskItem>, RemoveItemAction>(_removeItem),
+  TypedReducer<List<TaskItem>, ReorderItemAction>(_reorderItem),
 ]);
 
 List<TaskItem> _removeItem(List<TaskItem> tasks, RemoveItemAction action) => List.unmodifiable(List.from(tasks)..remove(action.item));
 
 List<TaskItem> _addItem(List<TaskItem> tasks, AddItemAction action) => List.unmodifiable(List.from(tasks)..add(action.item));
+
+List<TaskItem> _reorderItem(List<TaskItem> tasks, ReorderItemAction action) {
+  final int _newIndex = action.newIndex; //> action.oldIndex ? action.newIndex - 1 : action.newIndex;
+  final int _oldIndex = action.oldIndex;
+  final TaskItem item = tasks[_oldIndex];//tasks.removeAt(_oldIndex);
+//  tasks.insert(_newIndex, item);
+  return List.unmodifiable(List.from(tasks)..removeAt(_oldIndex)..insert(_newIndex, item));
+}
 
 final Reducer<TimeState> timeStateReducer = combineReducers<TimeState>([
   TypedReducer<TimeState, DisplayPomodoroAction>(_displayPomodoro),
