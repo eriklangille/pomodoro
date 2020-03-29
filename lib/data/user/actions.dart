@@ -1,10 +1,11 @@
 import 'package:pomodoro/redux.dart';
+import 'package:pomodoro/services/database.dart';
 import 'package:pomodoro/util/parseerror.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:pomodoro/services/auth.dart';
+import 'package:pomodoro/data/tasks/actions.dart';
 
 class CurrentUserAction {
 }
@@ -73,6 +74,7 @@ ThunkAction refreshUser() {
       AuthService _auth = new AuthService();
       _auth.getCurrentUser.then((user) {
         store.dispatch(new SetUserAction(user));
+        store.dispatch(getTasks(user.uid));
       });
     });
   };

@@ -11,6 +11,7 @@ import 'package:pomodoro/util/countdown.dart';
 import 'package:pomodoro/widgets/progress_bar/index.dart';
 import 'package:pomodoro/data/state.dart';
 import 'package:redux/redux.dart';
+import 'package:uuid/uuid.dart';
 
 class Pomodoro extends StatefulWidget {
   @override
@@ -24,11 +25,14 @@ class PomodoroState extends State<Pomodoro> {
     color: Colors.white,
     fontFamily: 'Roboto',
   );
+  var uuid = Uuid();
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
       onInit: (store){
         store.dispatch(refreshUser());
+//        store.dispatch(getTasks());
       },
       builder: (context, vm) {
         return Scaffold(
@@ -62,7 +66,7 @@ class PomodoroState extends State<Pomodoro> {
   _addTask(_ViewModel vm, String text, DateTime date) {
     vm.hideNewTask();
     if (text != "") {
-      vm.addItem(TaskItem(ValueKey(vm.store.state.tasksState.tasks.length), text, Colors.lightBlue, false, 0, new DateTime.now(), date));
+      vm.addTask(TaskItem(ValueKey(vm.store.state.tasksState.tasks.length), uuid.v1(), text, Colors.lightBlue, false, 0, new DateTime.now(), date));
     }
   }
   
@@ -123,6 +127,7 @@ class _ViewModel {
     this.items,
     this.store,
     this.addItem,
+    this.addTask,
     this.reorderItem,
     this.pomodoroMode,
     this.noneMode,
@@ -134,6 +139,7 @@ class _ViewModel {
   final List<TaskItem> items;
   final Store<AppState> store;
   final Function(TaskItem) addItem;
+  final Function(TaskItem) addTask;
   final Function(int, int) reorderItem;
   final Function() pomodoroMode;
   final Function() noneMode;
@@ -146,6 +152,7 @@ class _ViewModel {
       items: store.state.tasksState.tasks,
       store: store,
       addItem: (item) => store.dispatch(new AddItemAction(item)),
+      addTask: (TaskItem item) => store.dispatch(addTaskData(item)),
       reorderItem: (oldIndex, newIndex) => store.dispatch(new ReorderItemAction(oldIndex, newIndex)),
       pomodoroMode: () => store.dispatch(new DisplayPomodoroAction()),
       noneMode: () => store.dispatch(new DisplayNoneAction()),
