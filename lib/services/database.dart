@@ -10,23 +10,46 @@ class DatabaseService {
 
   final CollectionReference userCollection = Firestore.instance.collection('users');
 
-  _tasksString(List<TaskItem> tasks) {
-    tasks.map((task) => 0);
-    return '';
-  }
   // First initialization of user data
   Future<void> updateUserData(List<TaskItem> tasks, int pomos, int totalTime) async {
     return await userCollection.document(uid).setData({
-//      'item': 'value',
       'pomodoros': pomos,
       'total_time': totalTime,
-      'tasks': 'none'//_tasksString(tasks),
+      'tasks': ''
+    });
+  }
+
+  Future<void> updateTaskOrder(List<String> order) async {
+    return await userCollection.document(uid).updateData({
+      'tasks': order,
+    });
+  }
+
+  Future<void> updateTaskTime(TaskItem task) async {
+    return await userCollection.document(uid).collection("tasks").document(task.id).updateData({
+      'time': task.time,
+      'modified': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> updateTaskDetails(TaskItem task) async {
+    return await userCollection.document(uid).collection("tasks").document(task.id).updateData({
+      'title': task.taskTitle,
+      'color': task.taskColor.value,
+      'completed': task.completed,
+      'dueAt': task.dueAt
     });
   }
 
   Future<List<TaskItem>> getUserTaskData() async {
     print("UID: $uid");
     List<TaskItem> _tasks = [];
+    List<dynamic> _tasksOrder = [];
+    await userCollection.document(uid).get().then((DocumentSnapshot snapshot) {
+      if (snapshot.data.containsKey('tasks')) {
+        _tasksOrder = snapshot.data['tasks'];
+      }
+    });
     await userCollection.document(uid).collection("tasks").getDocuments().then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
         Timestamp _createdAt = f.data['createdAt'];
@@ -35,19 +58,27 @@ class DatabaseService {
         print(f.data['title']);
       });
     });
+    _tasks = _tasksOrder.map((x) {
+      return _tasks.firstWhere(((TaskItem d) => d.id == x));
+    }).toList();
     return _tasks;
   }
 
-  Future<void> addUserTaskData(TaskItem task, int order) async {
+  Future<void> addUserTaskData(TaskItem task, List<String> order) async {
     print("Adding task: ${task.taskTitle}");
-    return await userCollection.document(uid).collection("tasks").document(task.id).setData({
+    WriteBatch _batch = Firestore.instance.batch();
+    _batch.setData(userCollection.document(uid).collection("tasks").document(task.id), {
       'title': task.taskTitle,
-      'order': order,
       'color': task.taskColor.value,
       'completed': task.completed,
-      'time': task.time,
+      'modified': FieldValue.serverTimestamp(), //This needs to be updated whenever and only when the time parameter is updated.
+      'time': task.time, //Needs to be 0 or will fail to upload to database.
       'createdAt': task.createdAt,
       'dueAt': task.dueAt
     });
+    _batch.updateData(userCollection.document(uid), {
+      'tasks': order,
+    });
+    return await _batch.commit();
   }
 }

@@ -10,7 +10,7 @@ ThunkAction addTaskData(TaskItem task) {
       store.dispatch(new AddItemAction(task));
       final List<TaskItem> _tasks =  store.state.tasksState.tasks;
       DatabaseService _db = new DatabaseService(uid: store.state.userState.currentUser.uid);
-      _db.addUserTaskData(task, _tasks.length - 1).then((response) {
+      _db.addUserTaskData(task, _tasks.map((t) => t.id).toList()).then((response) {
         //Nice
 
       }, onError: (error) {
@@ -26,6 +26,20 @@ ThunkAction getTasks(String uid) {
       DatabaseService _db = new DatabaseService(uid: store.state.userState.currentUser.uid);
       _db.getUserTaskData().then((List<TaskItem> tasks) {
         tasks.forEach((f) => store.dispatch(AddItemAction(f)));
+      }, onError: (error) {
+        print(error);
+      });
+    });
+  };
+}
+
+ThunkAction updateTaskOrder() {
+  return (Store store) async {
+    new Future(() async {
+      final List<TaskItem> _tasks =  store.state.tasksState.tasks;
+      DatabaseService _db = new DatabaseService(uid: store.state.userState.currentUser.uid);
+      _db.updateTaskOrder(_tasks.map((t) => t.id)).then((response) {
+        //Nice
       }, onError: (error) {
         print(error);
       });
